@@ -75,6 +75,17 @@ header > nav > ul {
   list-style-type: none;
 }
 
+@media (max-width: 500px) {
+  header {
+    align-items: start;
+  }
+  header > nav > ul {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5em;
+  }
+}
+
 button.random {
   color: inherit;
   text-decoration: underline;
@@ -89,6 +100,14 @@ header > nav > ul a,
 header > nav > ul button.random {
   color: inherit;
   text-decoration: none;
+}
+
+a:hover,
+button.random:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
 }
 
 header > nav li.active {
