@@ -4,16 +4,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/inter/inter.css">
-    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/inter/inter.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/snippet-lib/styles.css">
     <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
     <title>connor&#39;s snippet library</title>
   </head>
   <body>
     <header>
       <div class="brand-container">
-        <a href="/">
+        <a href="/snippet-lib/">
           <div class="brand">
             <p>
               connor's<br>
@@ -26,15 +26,15 @@
 
       <nav>
         <ul>
-          <li class="active"><a href="/">home</a></li>
-          <li class=""><a href="/recents/">recents</a></li>
-          <li class=""><a href="/tags/">tags</a></li>
+          <li class="active"><a href="/snippet-lib/">home</a></li>
+          <li class=""><a href="/snippet-lib/recents/">recents</a></li>
+          <li class=""><a href="/snippet-lib/tags/">tags</a></li>
           <li>
             <button type="button" class="random" onclick="goToRandomPost()">
               random
             </button>
           </li>
-          <li class=""><a href="/search">search</a></li>
+          <li class=""><a href="/snippet-lib/search">search</a></li>
         </ul>
       </nav>
     </header>
@@ -57,9 +57,9 @@
   </p>
 
   <p>
-    start by looking through the <a href="/recents">recents</a> and <a href="/tags">tags</a>, or go somewhere 
+    start by looking through the <a href="/snippet-lib/recents">recents</a> and <a href="/snippet-lib/tags">tags</a>, or go somewhere 
     <button type="button" class="random" onclick="goToRandomPost()">random</button>!
-    or if you're looking for something specific, try the <a href="/search">search</a>.
+    or if you're looking for something specific, try the <a href="/snippet-lib/search">search</a>.
   </p>
 
   <p>
@@ -80,10 +80,10 @@ function copyCode(button) {
 }
 
 const posts = [
-  "/snippets/sbatch/",
-  "/snippets/bins/",
+  "/snippet-lib/snippets/sbatch/",
+  "/snippet-lib/snippets/bins/",
 ];
-const currentUrl = "/";
+const currentUrl = "/snippet-lib/";
 
 function goToRandomPost() {
   const otherPosts = posts.filter((url) => url !== currentUrl);

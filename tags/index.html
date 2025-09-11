@@ -4,16 +4,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/inter/inter.css">
-    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/inter/inter.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/snippet-lib/styles.css">
     <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
     <title>tags</title>
   </head>
   <body>
     <header>
       <div class="brand-container">
-        <a href="/">
+        <a href="/snippet-lib/">
           <div class="brand">
             <p>
               connor's<br>
@@ -26,15 +26,15 @@
 
       <nav>
         <ul>
-          <li class=""><a href="/">home</a></li>
-          <li class=""><a href="/recents/">recents</a></li>
-          <li class="active"><a href="/tags/">tags</a></li>
+          <li class=""><a href="/snippet-lib/">home</a></li>
+          <li class=""><a href="/snippet-lib/recents/">recents</a></li>
+          <li class="active"><a href="/snippet-lib/tags/">tags</a></li>
           <li>
             <button type="button" class="random" onclick="goToRandomPost()">
               random
             </button>
           </li>
-          <li class=""><a href="/search">search</a></li>
+          <li class=""><a href="/snippet-lib/search">search</a></li>
         </ul>
       </nav>
     </header>
@@ -46,19 +46,19 @@
   
     
     <li>
-      <a href="/tags/greene/">greene</a>
+      <a href="/snippet-lib/tags/greene/">greene</a>
       <span class="detail">(1 snippet)</span>
     </li>
   
     
     <li>
-      <a href="/tags/python/">python</a>
+      <a href="/snippet-lib/tags/python/">python</a>
       <span class="detail">(1 snippet)</span>
     </li>
   
     
     <li>
-      <a href="/tags/slurm/">slurm</a>
+      <a href="/snippet-lib/tags/slurm/">slurm</a>
       <span class="detail">(1 snippet)</span>
     </li>
   
@@ -77,10 +77,10 @@ function copyCode(button) {
 }
 
 const posts = [
-  "/snippets/sbatch/",
-  "/snippets/bins/",
+  "/snippet-lib/snippets/sbatch/",
+  "/snippet-lib/snippets/bins/",
 ];
-const currentUrl = "/tags/";
+const currentUrl = "/snippet-lib/tags/";
 
 function goToRandomPost() {
   const otherPosts = posts.filter((url) => url !== currentUrl);

@@ -4,16 +4,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/inter/inter.css">
-    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/inter/inter.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/snippet-lib/styles.css">
     <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
     <title>tagged &#39;slurm&#39;</title>
   </head>
   <body>
     <header>
       <div class="brand-container">
-        <a href="/">
+        <a href="/snippet-lib/">
           <div class="brand">
             <p>
               connor's<br>
@@ -26,15 +26,15 @@
 
       <nav>
         <ul>
-          <li class=""><a href="/">home</a></li>
-          <li class=""><a href="/recents/">recents</a></li>
-          <li class=""><a href="/tags/">tags</a></li>
+          <li class=""><a href="/snippet-lib/">home</a></li>
+          <li class=""><a href="/snippet-lib/recents/">recents</a></li>
+          <li class=""><a href="/snippet-lib/tags/">tags</a></li>
           <li>
             <button type="button" class="random" onclick="goToRandomPost()">
               random
             </button>
           </li>
-          <li class=""><a href="/search">search</a></li>
+          <li class=""><a href="/snippet-lib/search">search</a></li>
         </ul>
       </nav>
     </header>
@@ -45,7 +45,7 @@
 <ul class="postlist">
 
 
-  <li><a href="/snippets/sbatch/">SLURM batch script</a> <time>(2025 Sep 09)</time></li>
+  <li><a href="/snippet-lib/snippets/sbatch/">SLURM batch script</a> <time>(2025 Sep 09)</time></li>
 
 </ul>
 
@@ -63,10 +63,10 @@ function copyCode(button) {
 }
 
 const posts = [
-  "/snippets/sbatch/",
-  "/snippets/bins/",
+  "/snippet-lib/snippets/sbatch/",
+  "/snippet-lib/snippets/bins/",
 ];
-const currentUrl = "/tags/slurm/";
+const currentUrl = "/snippet-lib/tags/slurm/";
 
 function goToRandomPost() {
   const otherPosts = posts.filter((url) => url !== currentUrl);
