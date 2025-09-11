@@ -1,0 +1,70 @@
+---
+title: connor's snippet library
+---
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/inter/inter.css">
+    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <header>
+      <div class="brand-container">
+        <a href="/">
+          <div class="brand">
+            <p>
+              connor's<br>
+              snippet<br>
+              library
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class="{{ 'active' if page.url == '/'         }}"><a href="/">home</a></li>
+          <li class="{{ 'active' if page.url == '/recents/' }}"><a href="/recents/">recents</a></li>
+          <li class="{{ 'active' if page.url == '/tags/'    }}"><a href="/tags/">tags</a></li>
+          <li>
+            <button type="button" class="random" onclick="goToRandomPost()">
+              random
+            </button>
+          </li>
+          <li class="{{ 'active' if page.url == '/search/'  }}"><a href="/search">search</a></li>
+        </ul>
+      </nav>
+    </header>
+    {{ content | safe }}
+
+    <script>
+function copyCode(button) {
+  const codeBlock = button.closest('.code-block').querySelector('code');
+  const text = codeBlock.textContent;
+  window.navigator.clipboard.writeText(text).then(() => {
+    button.textContent = 'copied!'
+    setTimeout(() => { button.textContent = 'copy'; }, 2000);
+  }, 2000);
+}
+
+const posts = [
+{%- for post in collections['posts'] %}
+  "{{ post.url }}",
+{%- endfor %}
+];
+const currentUrl = "{{ page.url }}";
+
+function goToRandomPost() {
+  const otherPosts = posts.filter((url) => url !== currentUrl);
+  const r = Math.floor(Math.random() * otherPosts.length);
+  window.location.href = otherPosts[r];
+}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+layout: base.njk
+title: tags
+---
+
+<main>
+  <h1>tags</h1>
+
+  <ul class="postlist">
+  {% for tag in collections | getKeys | filterTagList | sortAlphabetically %}
+    {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+    <li>
+      <a href="{{ tagUrl }}">{{ tag }}</a>
+      <span class="detail">({{ collections[tag].length }} snippet)</span>
+    </li>
+  {% endfor %}
+  </ul>
+</main>

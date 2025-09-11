@@ -1,0 +1,19 @@
+---
+layout: base
+title: search
+---
+
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<link href="/search.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+
+<main>
+  <h1>search</h1>
+  <div id="search"></div>
+</main>
+
+<script>
+window.addEventListener('DOMContentLoaded', (event) => {
+  new PagefindUI({ element: "#search", showSubResults: true });
+});
+</script>

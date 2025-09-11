@@ -1,0 +1,25 @@
+---
+layout: base.njk
+title: connor's snippet library
+date: 2025-09-09
+---
+
+<main data-pagefind-body>
+  <h1>{{ title }}</h1>
+  <div class="front-matter">
+    <div class="date">
+      <p>posted <time>{{ date | readableDate }}</time></p>
+    </div>
+    <div class="taglist">
+      <p>tags:</p>
+      <ul class="taglist">
+      {%- for tag in tags | filterTagList -%}
+        {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+        <li><a href="{{ tagUrl }}">{{ tag }}</a></li>
+      {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+  {{ content | safe }}
+</main>
+
