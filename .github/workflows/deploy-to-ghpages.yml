@@ -33,7 +33,7 @@ jobs:
           path: ./.cache
           key: ${{ runner.os }}-eleventy-fetch-cache
 
-      - run: npm install
+      - run: npm install --force
       - run: npm install --include=optional sharp
       - run: npm run build-ghpages
 
