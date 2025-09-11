@@ -102,6 +102,14 @@ header > nav > ul button.random {
   text-decoration: none;
 }
 
+a:hover,
+button.random:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
 header > nav li.active {
   font-weight: 600;
 }
