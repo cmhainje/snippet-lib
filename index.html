@@ -1,0 +1,95 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/inter/inter.css">
+    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
+    <title>connor&#39;s snippet library</title>
+  </head>
+  <body>
+    <header>
+      <div class="brand-container">
+        <a href="/">
+          <div class="brand">
+            <p>
+              connor's<br>
+              snippet<br>
+              library
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class="active"><a href="/">home</a></li>
+          <li class=""><a href="/recents/">recents</a></li>
+          <li class=""><a href="/tags/">tags</a></li>
+          <li>
+            <button type="button" class="random" onclick="goToRandomPost()">
+              random
+            </button>
+          </li>
+          <li class=""><a href="/search">search</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+<main>
+  <h1>connor's snippet library</h1>
+
+  <p>
+    over the years, I've found that often I end up needing to solve a problem that I know I've solved before.
+    sometimes I re-invent the same old solution; sometimes I can't quite figure it out on the second go.
+    sometimes I can find the old code; sometimes I can't.
+    no matter what, I'm wasting time trying to do something I know I've done before.
+  </p>
+
+  <p>
+    this snippet library is my attempt to solve this issue.
+    whenever I find myself looking up how to do something for the third or fourth time, I'm just going to throw the solution up here.
+    I'll try to make these snippets as short and dependency-free as possible, so they can be dropped into new projects without worry.
+    maybe they will prove useful to you, too.
+  </p>
+
+  <p>
+    start by looking through the <a href="/recents">recents</a> and <a href="/tags">tags</a>, or go somewhere 
+    <button type="button" class="random" onclick="goToRandomPost()">random</button>!
+    or if you're looking for something specific, try the <a href="/search">search</a>.
+  </p>
+
+  <p>
+    bug reports, comments, or suggestions can be directed to me at <br>
+    connor &lt;dot&gt; hainje &lt;at&gt; gmail &lt;dot&gt; com
+  </p>
+</main>
+
+
+    <script>
+function copyCode(button) {
+  const codeBlock = button.closest('.code-block').querySelector('code');
+  const text = codeBlock.textContent;
+  window.navigator.clipboard.writeText(text).then(() => {
+    button.textContent = 'copied!'
+    setTimeout(() => { button.textContent = 'copy'; }, 2000);
+  }, 2000);
+}
+
+const posts = [
+  "/snippets/sbatch/",
+  "/snippets/bins/",
+];
+const currentUrl = "/";
+
+function goToRandomPost() {
+  const otherPosts = posts.filter((url) => url !== currentUrl);
+  const r = Math.floor(Math.random() * otherPosts.length);
+  window.location.href = otherPosts[r];
+}
+    </script>
+  </body>
+</html>

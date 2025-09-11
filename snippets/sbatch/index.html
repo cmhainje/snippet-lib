@@ -1,0 +1,126 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/inter/inter.css">
+    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
+    <title>SLURM batch script</title>
+  </head>
+  <body>
+    <header>
+      <div class="brand-container">
+        <a href="/">
+          <div class="brand">
+            <p>
+              connor's<br>
+              snippet<br>
+              library
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class=""><a href="/">home</a></li>
+          <li class=""><a href="/recents/">recents</a></li>
+          <li class=""><a href="/tags/">tags</a></li>
+          <li>
+            <button type="button" class="random" onclick="goToRandomPost()">
+              random
+            </button>
+          </li>
+          <li class=""><a href="/search">search</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+<main data-pagefind-body="">
+  <h1>SLURM batch script</h1>
+  <div class="front-matter">
+    <div class="date">
+      <p>posted <time>2025 Sep 09</time></p>
+    </div>
+    <div class="taglist">
+      <p>tags:</p>
+      <ul class="taglist">
+        <li><a href="/tags/slurm/">slurm</a></li>
+        <li><a href="/tags/greene/">greene</a></li></ul>
+    </div>
+  </div>
+  <p>this is my template SLURM batch script for for running python jobs on Greene.
+Greene requests that python be installed in and run from Singularity containers, so I've included the Singularity incantation here.</p>
+<p>in general, for a python script at <code>/path/to/project/script.py</code>, I'll include this in a file called <code>/path/to/project/run_script.sh</code>.
+then the job is submitted with <code>sbatch run_script.sh</code>.</p>
+
+<div class="code-block">
+  <div class="code-header">
+    <p class="language-label">bash</p>
+    <button type="button" class="copy-button" onclick="copyCode(this)">
+      copy
+    </button>
+  </div>
+  <pre class="language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<span class="token comment">#SBATCH -J job_name</span>
+<span class="token comment">#SBATCH -t 02-12:00:00</span>
+<span class="token comment">#SBATCH --mem 16G</span>
+<span class="token comment">#SBATCH --nodes 1</span>
+<span class="token comment">#SBATCH --ntasks-per-node 1</span>
+<span class="token comment">#SBATCH --cpus-per-task 1</span>
+<span class="token comment">#SBATCH --gres gpu</span>
+<span class="token comment">#SBATCH mail-type ALL</span>
+<span class="token comment">#SBATCH mail-user address@example.com</span>
+<span class="token comment">#SBATCH -o slurm-%x-%j.out</span>
+<span class="token comment">#SBATCH -e slurm-%x-%j.out</span>
+
+module purge
+singularity <span class="token builtin class-name">exec</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">--nv</span> <span class="token punctuation">\</span>
+    <span class="token parameter variable">--overlay</span> /path/to/overlay.ext3:ro <span class="token punctuation">\</span>
+    /scratch/work/public/singularity/*.sif <span class="token punctuation">\</span>
+    /bin/bash <span class="token parameter variable">-c</span> <span class="token punctuation">\</span>
+    <span class="token string">"cd /path/to/script/; \
+    python py_script.py --args"</span></code></pre>
+</div>
+          
+<p>some notes on using this:</p>
+<ul>
+<li>omit the lines <code>#SBATCH --gres gpu</code> and <code>--nv</code> if you don't need a GPU</li>
+<li>change <code>:ro</code> to <code>:rw</code> if you'll need to modify files in the <code>/ext3</code> overlay</li>
+<li>be sure to activate your python env if necessary inside the bash command</li>
+<li>the file <code>slurm-*.out</code> will get written where you run the <code>sbatch</code> command;
+change it to an absolute path <code>/path/to/slurm-%x-%j.out</code> if you don't want this</li>
+</ul>
+
+</main>
+
+
+
+    <script>
+function copyCode(button) {
+  const codeBlock = button.closest('.code-block').querySelector('code');
+  const text = codeBlock.textContent;
+  window.navigator.clipboard.writeText(text).then(() => {
+    button.textContent = 'copied!'
+    setTimeout(() => { button.textContent = 'copy'; }, 2000);
+  }, 2000);
+}
+
+const posts = [
+  "/snippets/sbatch/",
+  "/snippets/bins/",
+];
+const currentUrl = "/snippets/sbatch/";
+
+function goToRandomPost() {
+  const otherPosts = posts.filter((url) => url !== currentUrl);
+  const r = Math.floor(Math.random() * otherPosts.length);
+  window.location.href = otherPosts[r];
+}
+    </script>
+  </body>
+</html>

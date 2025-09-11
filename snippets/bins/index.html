@@ -1,0 +1,131 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/inter/inter.css">
+    <link rel="stylesheet" href="/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://prismjs.catppuccin.com/latte.css" rel="stylesheet">
+    <title>bins</title>
+  </head>
+  <body>
+    <header>
+      <div class="brand-container">
+        <a href="/">
+          <div class="brand">
+            <p>
+              connor's<br>
+              snippet<br>
+              library
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class=""><a href="/">home</a></li>
+          <li class=""><a href="/recents/">recents</a></li>
+          <li class=""><a href="/tags/">tags</a></li>
+          <li>
+            <button type="button" class="random" onclick="goToRandomPost()">
+              random
+            </button>
+          </li>
+          <li class=""><a href="/search">search</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+<main data-pagefind-body="">
+  <h1>bins</h1>
+  <div class="front-matter">
+    <div class="date">
+      <p>posted <time>2025 Sep 10</time></p>
+    </div>
+    <div class="taglist">
+      <p>tags:</p>
+      <ul class="taglist">
+        <li><a href="/tags/python/">python</a></li></ul>
+    </div>
+  </div>
+  <p>often when analyzing data, I end up binning the data according to one variable and then, in each bin, computing some other quantity.
+this could be something as simple as a histogram or maybe more complicated.
+in order to bin your data, you need the bin <em>edges</em>; but to plot the data, you probably need the bin <em>centers</em>.
+rather than manually computing the midpoint of the edges (and remembering to adjust the calculation if your bins are logarithmically spaced), I use this snippet to make both the bin edges and centers in one go.
+also, I often find it useful to set the lowest bin edge to zero when the bins are logarithmically spaced, so that's included here too.</p>
+
+<div class="code-block">
+  <div class="code-header">
+    <p class="language-label">python</p>
+    <button type="button" class="copy-button" onclick="copyCode(this)">
+      copy
+    </button>
+  </div>
+  <pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">make_bins</span><span class="token punctuation">(</span>lo<span class="token punctuation">,</span> hi<span class="token punctuation">,</span> num<span class="token punctuation">,</span> log<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> zero<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    space <span class="token operator">=</span> np<span class="token punctuation">.</span>geomspace <span class="token keyword">if</span> log <span class="token keyword">else</span> np<span class="token punctuation">.</span>linspace
+    all_bins <span class="token operator">=</span> space<span class="token punctuation">(</span>lo<span class="token punctuation">,</span> hi<span class="token punctuation">,</span> <span class="token number">2</span> <span class="token operator">*</span> num <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    edges <span class="token operator">=</span> all_bins<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+    centers <span class="token operator">=</span> all_bins<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+    <span class="token keyword">if</span> zero<span class="token punctuation">:</span>
+        edges<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">return</span> edges<span class="token punctuation">,</span> centers</code></pre>
+</div>
+          
+<p>sample usage:</p>
+
+<div class="code-block">
+  <div class="code-header">
+    <p class="language-label">python</p>
+    <button type="button" class="copy-button" onclick="copyCode(this)">
+      copy
+    </button>
+  </div>
+  <pre class="language-python"><code class="language-python"><span class="token comment"># data: x, y (ndarrays of same shape)</span>
+
+n_bins <span class="token operator">=</span> <span class="token number">10</span>
+bin_e<span class="token punctuation">,</span> bin_c <span class="token operator">=</span> make_bins<span class="token punctuation">(</span><span class="token number">1e-1</span><span class="token punctuation">,</span> <span class="token number">1e2</span><span class="token punctuation">,</span> n_bins<span class="token punctuation">,</span> log<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> zero<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token comment"># use bin edges to compute per-bin quantities</span>
+y_means <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>n_bins<span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n_bins<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    mask <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token operator">>=</span> bin_e<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> bin_e<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    y_means<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> np<span class="token punctuation">.</span>average<span class="token punctuation">(</span>y<span class="token punctuation">[</span>mask<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment"># use bin centers to plot</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>bin_c<span class="token punctuation">,</span> y_means<span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>xscale<span class="token punctuation">(</span><span class="token string">'log'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+</div>
+          
+
+</main>
+
+
+
+    <script>
+function copyCode(button) {
+  const codeBlock = button.closest('.code-block').querySelector('code');
+  const text = codeBlock.textContent;
+  window.navigator.clipboard.writeText(text).then(() => {
+    button.textContent = 'copied!'
+    setTimeout(() => { button.textContent = 'copy'; }, 2000);
+  }, 2000);
+}
+
+const posts = [
+  "/snippets/sbatch/",
+  "/snippets/bins/",
+];
+const currentUrl = "/snippets/bins/";
+
+function goToRandomPost() {
+  const otherPosts = posts.filter((url) => url !== currentUrl);
+  const r = Math.floor(Math.random() * otherPosts.length);
+  window.location.href = otherPosts[r];
+}
+    </script>
+  </body>
+</html>
