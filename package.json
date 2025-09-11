@@ -7,7 +7,7 @@
     "dev": "npx @11ty/eleventy --serve",
     "build": "rm -rf _site/ && npx @11ty/eleventy",
     "build:index": "npx pagefind --site _site",
-    "build-ghpages": "npx @11ty/eleventy --pathprefix=/connorhainje.github.io/"
+    "build-ghpages": "npx @11ty/eleventy --pathprefix=/snippet-lib/ && npx pagefind --site _site"
   },
   "keywords": [],
   "author": "",
