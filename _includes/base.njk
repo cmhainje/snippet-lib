@@ -55,10 +55,10 @@ function copyCode(button) {
 
 const posts = [
 {%- for post in collections['posts'] %}
-  "{{ post.url }}",
+  "{{ post.url | url }}",
 {%- endfor %}
 ];
-const currentUrl = "{{ page.url }}";
+const currentUrl = "{{ page.url | url }}";
 
 function goToRandomPost() {
   const otherPosts = posts.filter((url) => url !== currentUrl);

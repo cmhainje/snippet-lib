@@ -1,8 +1,10 @@
+import { HtmlBasePlugin } from "@11ty/eleventy";
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { execSync } from "child_process";
 
-export default function (eleventyConfig) {
+export default async function (eleventyConfig) {
+  eleventyConfig.addPlugin(HtmlBasePlugin);
   eleventyConfig.addPlugin(eleventyImageTransformPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
 
@@ -70,3 +72,7 @@ export default function (eleventyConfig) {
     return `${year} ${month} ${paddedDay}`
   });
 }
+
+export const config = {
+  pathPrefix: "/snippet-lib/",
+};
