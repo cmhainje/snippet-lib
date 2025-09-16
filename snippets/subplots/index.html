@@ -1,0 +1,146 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/snippet-lib/assets/inter/inter.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/ibm-plex-mono/css/ibm-plex-mono-default.css">
+    <link rel="stylesheet" href="/snippet-lib/assets/catppuccin/latte.css">
+    <link rel="stylesheet" href="/snippet-lib/styles.css">
+    <title>subplots</title>
+  </head>
+  <body>
+    <header>
+      <div class="brand-container">
+        <a href="/snippet-lib/">
+          <div class="brand">
+            <p>
+              connor's<br>
+              snippet<br>
+              library
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <nav>
+        <ul>
+          <li class=""><a href="/snippet-lib/">home</a></li>
+          <li class=""><a href="/snippet-lib/recents/">recents</a></li>
+          <li class=""><a href="/snippet-lib/tags/">tags</a></li>
+          <li>
+            <button type="button" class="random" onclick="goToRandomPost()">
+              random
+            </button>
+          </li>
+          <li class=""><a href="/snippet-lib/search">search</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+<main data-pagefind-body="">
+  <h1>subplots</h1>
+  <div class="front-matter">
+    <div class="date">
+      <p>posted <time>2025 Sep 16</time></p>
+    </div>
+    <div class="taglist">
+      <p>tags:</p>
+      <ul class="taglist">
+        <li><a href="/snippet-lib/tags/python/">python</a></li>
+        <li><a href="/snippet-lib/tags/matplotlib/">matplotlib</a></li></ul>
+    </div>
+  </div>
+  <p>how to make a row of subplots with one shared colorbar Axes, optionally telling the plot Axes to share their x/y-axis limits.
+if you just want a row of subplots with a shared colorbar Axes, this is achieveable with the <code>plt.subplots</code> method: just give it one extra column and make the last panel narrower by specifying <code>gridspec_kw=dict(width_ratios=[...])</code>.
+but if you additionally want the subplots to all share their axis limits, it can be tricky to achieve without ruining the colorbar.</p>
+<p>so here is a snippet I use <em>all the time</em> to achieve this:</p>
+
+<div class="code-block">
+  <div class="code-header">
+    <p class="language-label">python</p>
+    <button type="button" class="copy-button" onclick="copyCode(this)">
+      copy
+    </button>
+  </div>
+  <pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">subplots_with_cax</span><span class="token punctuation">(</span>ncols<span class="token punctuation">,</span> size<span class="token operator">=</span><span class="token number">3.5</span><span class="token punctuation">,</span> sharex<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">,</span> sharey<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    fig <span class="token operator">=</span> plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span>ncols <span class="token operator">*</span> size<span class="token punctuation">,</span> size<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    gs  <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_gridspec<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> ncols<span class="token punctuation">,</span> width_ratios<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">*</span> ncols <span class="token operator">+</span> <span class="token punctuation">[</span><span class="token number">0.5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    axs <span class="token operator">=</span> np<span class="token punctuation">.</span>empty<span class="token punctuation">(</span><span class="token punctuation">(</span>ncols<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token builtin">object</span><span class="token punctuation">)</span>
+    axs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_subplot<span class="token punctuation">(</span>gs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> c <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> ncols<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        axs<span class="token punctuation">[</span>c<span class="token punctuation">]</span> <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_subplot<span class="token punctuation">(</span>
+            gs<span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">,</span>
+            sharex<span class="token operator">=</span>axs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">if</span> sharex <span class="token keyword">else</span> <span class="token boolean">None</span><span class="token punctuation">,</span>
+            sharey<span class="token operator">=</span>axs<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">if</span> sharey <span class="token keyword">else</span> <span class="token boolean">None</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span>
+
+    cax <span class="token operator">=</span> fig<span class="token punctuation">.</span>add_subplots<span class="token punctuation">(</span>gs<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> fig<span class="token punctuation">,</span> axs<span class="token punctuation">,</span> cax</code></pre>
+</div>
+          
+<p>sample usage:</p>
+
+<div class="code-block">
+  <div class="code-header">
+    <p class="language-label">python</p>
+    <button type="button" class="copy-button" onclick="copyCode(this)">
+      copy
+    </button>
+  </div>
+  <pre class="language-python"><code class="language-python"><span class="token comment"># data X with shape (4, N, 3)</span>
+<span class="token comment"># which we want to plot as four panels, each of which is</span>
+<span class="token comment">#   a 2D scatter plot of the first two dimensions</span>
+<span class="token comment">#   colored by the third dimension</span>
+
+norm <span class="token operator">=</span> mpl<span class="token punctuation">.</span>colors<span class="token punctuation">.</span>Normalize<span class="token punctuation">(</span><span class="token punctuation">)</span>
+cmap <span class="token operator">=</span> plt<span class="token punctuation">.</span>get_cmap<span class="token punctuation">(</span><span class="token string">'viridis'</span><span class="token punctuation">)</span>
+
+fig<span class="token punctuation">,</span> axs<span class="token punctuation">,</span> cax <span class="token operator">=</span> subplots_with_cax<span class="token punctuation">(</span>X<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> sharex<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> sharey<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>X<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    axs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X<span class="token punctuation">[</span>i<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> X<span class="token punctuation">[</span>i<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> c<span class="token operator">=</span>X<span class="token punctuation">[</span>i<span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> norm<span class="token operator">=</span>norm<span class="token punctuation">,</span> cmap<span class="token operator">=</span>cmap<span class="token punctuation">)</span>
+
+fig<span class="token punctuation">.</span>colorbar<span class="token punctuation">(</span>
+    mpl<span class="token punctuation">.</span>cm<span class="token punctuation">.</span>ScalarMappable<span class="token punctuation">(</span>norm<span class="token punctuation">,</span> cmap<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    cax<span class="token operator">=</span>cax<span class="token punctuation">,</span>
+    label<span class="token operator">=</span><span class="token string">'Color scale'</span>
+<span class="token punctuation">)</span>
+
+fig<span class="token punctuation">.</span>tight_layout<span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment"># usually necessary</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+</div>
+          
+<p>all the <code>scatter</code> calls share a normalizer and colormap, from which we make a single custom colorbar.</p>
+
+</main>
+
+
+
+    <script>
+function copyCode(button) {
+  const codeBlock = button.closest('.code-block').querySelector('code');
+  const text = codeBlock.textContent;
+  window.navigator.clipboard.writeText(text).then(() => {
+    button.textContent = 'copied!'
+    setTimeout(() => { button.textContent = 'copy'; }, 2000);
+  }, 2000);
+}
+
+const posts = [
+  "/snippet-lib/snippets/sbatch/",
+  "/snippet-lib/snippets/bins/",
+  "/snippet-lib/snippets/subplots/",
+];
+const currentUrl = "/snippet-lib/snippets/subplots/";
+
+function goToRandomPost() {
+  const otherPosts = posts.filter((url) => url !== currentUrl);
+  const r = Math.floor(Math.random() * otherPosts.length);
+  window.location.href = otherPosts[r];
+}
+    </script>
+  </body>
+</html>
